@@ -17,7 +17,7 @@ public class BusinessHourCalculatorTest {
 
     public BusinessHourCalculatorTest() {
         businessHourCalculator = new BusinessHourCalculator("09:00", "15:00");
-        format = new SimpleDateFormat("yyyy-MM-d h:mm:ss");
+        format = new SimpleDateFormat("yyyy-MM-d H:mm:ss");
 
         businessHourCalculator.setOpeningHours(DayOfWeek.FRIDAY, "10:00", "17:00");
         businessHourCalculator.setOpeningHours("2010-12-24", "8:00", "13:00");
