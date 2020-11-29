@@ -12,7 +12,7 @@ import java.time.LocalTime;
 public class BusinessHourCalculator {
     private static final int PROCESSING_DAYS_LIMIT = 365;
 
-    private Schedule schedule;
+    private final Schedule schedule;
 
     /**
      * Constructs a BusinessHourCalculator with default working time for all 7 week days.
@@ -77,6 +77,7 @@ public class BusinessHourCalculator {
         LocalTime startingTime = startingDateTime.toLocalTime();
 
         if (schedule.isWorkingDay(startingDate)) {
+            System.out.println("Here!");
             LocalTime openingTime = schedule.getOpeningTime(startingDate);
             if (startingTime.isBefore(openingTime)) {
                 startingTime = openingTime;
@@ -85,20 +86,20 @@ public class BusinessHourCalculator {
 
         int days = 0;
         long workingSecondsPerDay = schedule.getSecondsTillClosing(startingTime, startingDate);
-        int remainigIntervalInSeconds = interval;
-        while (remainigIntervalInSeconds > workingSecondsPerDay) {
+        int remainingIntervalInSeconds = interval;
+        while (remainingIntervalInSeconds > workingSecondsPerDay) {
             days++;
             if (days == PROCESSING_DAYS_LIMIT) {
                 throw new IllegalStateException(String.format(
                         "We are not able to finish in %d days.%nPlease, come back later.", PROCESSING_DAYS_LIMIT));
             }
-            remainigIntervalInSeconds -= workingSecondsPerDay;
+            remainingIntervalInSeconds -= workingSecondsPerDay;
             workingSecondsPerDay = schedule.getWorkingSecondsPerDay(startingDate.plusDays(days));
             startingTime = schedule.getOpeningTime(startingDate.plusDays(days));
         }
 
         LocalDateTime deadline = LocalDateTime.of(startingDate.plusDays(days),
-                startingTime.plusSeconds(remainigIntervalInSeconds));
+                startingTime.plusSeconds(remainingIntervalInSeconds));
 
         return DateTimeHelper.localDateTimeToDate(deadline);
     }

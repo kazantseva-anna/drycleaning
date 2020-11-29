@@ -54,14 +54,23 @@ public class BusinessHourCalculatorTest {
     // Additional tests
 
     @Test
+    public void testStartAfterClosingShouldFinishTomorrow() throws ParseException {
+        Date expectedDate = format.parse("2010-12-28 11:00:00");
+
+        Date actualDate = businessHourCalculator.calculateDeadline(2 * 60 * 60, "2010-12-27 17:00"); 
+                                                                                                     
+        assertEquals(expectedDate, actualDate);
+    }
+
+    @Test
     public void testTodayIsClosedShouldFinishTomorrow() throws ParseException {
         Date expectedDate = format.parse("2010-12-23 10:00:00");
 
         Date actualDate = businessHourCalculator.calculateDeadline(1 * 60 * 60, "2010-12-22 12:00"); // Wednesday
-                                                                                                     // (closed)
+                                                                                                     
         assertEquals(expectedDate, actualDate);
     }
-
+    
     @Test(expected = IllegalStateException.class)
     public void testAllWeekDaysAreClosed() {
         for (DayOfWeek day : DayOfWeek.values()) {

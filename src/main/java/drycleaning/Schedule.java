@@ -8,8 +8,8 @@ import java.util.EnumMap;
 import java.util.HashMap;
 
 class Schedule {
-    private EnumMap<DayOfWeek, WorkingTime> weekDayWorkingHours;
-    private HashMap<LocalDate, WorkingTime> dateWorkingHours;
+    private final EnumMap<DayOfWeek, WorkingTime> weekDayWorkingHours;
+    private final HashMap<LocalDate, WorkingTime> dateWorkingHours;
 
     Schedule(String defaultOpeningTime, String defaultClosingTime) {
         this.weekDayWorkingHours = new EnumMap<>(DayOfWeek.class);
@@ -61,7 +61,10 @@ class Schedule {
 
     public long getSecondsTillClosing(LocalTime start, LocalDate date) {
         LocalTime closingTime = getClosingTime(date);
-        return closingTime != null ? ChronoUnit.SECONDS.between(start, closingTime) : 0;
+        if (closingTime == null || start.isAfter(closingTime)) {
+            return 0;
+        }
+        return ChronoUnit.SECONDS.between(start, closingTime);
     }
 
     public long getWorkingSecondsPerDay(LocalDate date) {
