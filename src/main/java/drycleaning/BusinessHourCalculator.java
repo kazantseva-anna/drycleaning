@@ -77,7 +77,6 @@ public class BusinessHourCalculator {
         LocalTime startingTime = startingDateTime.toLocalTime();
 
         if (schedule.isWorkingDay(startingDate)) {
-            System.out.println("Here!");
             LocalTime openingTime = schedule.getOpeningTime(startingDate);
             if (startingTime.isBefore(openingTime)) {
                 startingTime = openingTime;
