@@ -86,7 +86,7 @@ public class BusinessHourCalculatorTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testOpeningAndClosingAreEqualInCalculatorConstructor() {
+    public void testOpeningAndClosingAreEqual() {
         new BusinessHourCalculator("00:00", "00:00");
     }
 
